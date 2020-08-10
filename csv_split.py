@@ -7,15 +7,11 @@ import threading
 # to do:
 # 1. splitattavan tiedoston tulee sijaita samassa kansiossa
 # 2. Päätteen lisääminen tehdään poistamalla 4 viimeistä merkkiä ja korvaamalla ne .csv tekstillä
-# 3
+# 3. tarkista onko tiedostossa tarpeeksi rivejä jakamiseen
 # 4
 def get_path():
-    
-    # my_path = os.getcwd()
-    # print(my_path)
-    #print(os.getcwd())
+
     my_path = "C:\Python"
-    #print(my_path)
     filepath = glob.glob(my_path + '\**\*.csv', recursive=True)
     return filepath
 
@@ -28,28 +24,9 @@ def initialize():
     parser.add_argument("-o", help="output file", metavar="only .csv files allowed (default is empty if no value is set: splitfile(s).csv)", default="splitfile.csv")
     parser.add_argument("-r", help="row limit to split", type=int, required=True)
     args = parser.parse_args()
-    # check if file exists
-    
-    
 
     filepath = get_path()
-    #print(f"filepath on {filepath}")
-    
-    print(filepath)
-    # print(args.i)
-    # for i in filepath:
-    #     i = i[len(args.i):]
-    #     print(f"args.i on {args.i}")
-    #     print(f"i on {i}")
-        #print(f"args.i on {args.i}")
-    #print(f"Tiedosto {args.i} löytyi")
-    #print(os.path.abspath(args.i))
-    # values from read func
-        
-        
-        
-        #if str(args.i) == str(i):
-    
+
     args, header, data = read(args, data)
 
     while len(data) > 0:
@@ -57,28 +34,22 @@ def initialize():
         write(args, header, data, add_counter_to_name)
     
 
-
 def read(args, data):
     
     with open(args.i, 'r') as f:
         f_csv = csv.reader(f)
         
         header = next(f_csv)
-        
-        
-        #print(f"header on {header}!!!!!!!!!")
+
         for row in f_csv:              
             data.append(row)
     
-            #print(f"File (row count {len(f.readline())} doesn't have enough rows {args.r} to split")
     return args, header, data
-
 
 def write(args, header, data, add_counter_to_name):             
         
     counter = 0
     file_row_limit = int(args.r)  # cast args.r to int just in case, even its forced in argument parser
-    #add_counter_to_name = _add_counter_to_name
 
     file_output_name = str(args.o)
     file_output_name = file_output_name[:-4] + str(add_counter_to_name) + ".csv"
@@ -87,8 +58,7 @@ def write(args, header, data, add_counter_to_name):
         writer = csv.writer(f)
         
         writer.writerow(header)
-        
-        
+              
         # write rows in file and remove it from the list
         for rows in data[:file_row_limit]:
             data.pop(0)
@@ -97,11 +67,8 @@ def write(args, header, data, add_counter_to_name):
             counter = counter + 1                                         
             writer.writerow(rows)  
                 
-
     print(f"Taulukko {args.o} on tulostettu! Rivejä tulostettiin {counter}kpl.")
     
-
-
 initialize()
 
 
