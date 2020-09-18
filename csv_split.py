@@ -8,7 +8,7 @@ import threading
 # 1. splitattavan tiedoston tulee sijaita samassa kansiossa
 # 2. Päätteen lisääminen tehdään poistamalla 4 viimeistä merkkiä ja korvaamalla ne .csv tekstillä
 # 3. tarkista onko tiedostossa tarpeeksi rivejä jakamiseen
-# 4
+# 4. Tarkista jotenkin csv tiedoston tyyppi(onko eu vai amerikka eroittimet)(encode=utf8?)
 def get_path():
 
     my_path = "C:\Python"
